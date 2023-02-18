@@ -1,6 +1,7 @@
 const connectDB = require("./config/db");
 const Post = require('./model/postSchema')
 const sendEmail = require('./ses.js')
+const sendmail = require('./sendMail.js')
 
 connectDB();
 module.exports.hello = async (event) => {
@@ -39,6 +40,27 @@ module.exports.postEmployee = async (event) => {
             data
         }),
       };
+}
+
+
+
+module.exports.postMail = async (event) => {
+ 
+  const {name, department}=JSON.parse(event.body)
+
+  const employ = new Post({
+    name,
+    department
+  })
+  const data =await employ.save();
+  sendmail();
+  return {
+      statusCode: 200,
+      body: JSON.stringify({
+          message: "Data Saved",
+          data
+      }),
+    };
 }
 
 

@@ -29,3 +29,9 @@ functions:
       - http:
           path: /employee
           method: post
+  postMail:
+    handler: main.postMail
+    events:
+      - http:
+          path: /mail
+          method: post
